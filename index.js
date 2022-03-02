@@ -32,7 +32,6 @@ const searchProduct = () =>{
     displayResultSelector.innerHTML = "";
     productDetailsSelector.innerHTML = "";
     if(searchInputData ===""){
-        searchResult('Please Fill The Search Field Properly!')
 
         //load more on Null data search 
         loadMoreBtnDisplay('none')
@@ -52,7 +51,7 @@ const searchProduct = () =>{
             //If found any error then spinner hide
             loading('none');
 
-            searchResult("something may be wrong! please try later!")
+            searchResult("Please Try again later!")
         })
     }
 }
@@ -64,14 +63,12 @@ const searchResult = (text,searchInputData="")=>{
 }
 //loading- slug;
 const loadProductDetails = (slug) =>{
-
-    productDetailsSelector.innerHTML = "";
+productDetailsSelector.innerHTML = "";
     fetch(`https://openapi.programming-hero.com/api/phone/${slug}`)
     .then(res => res.json())
     .then(result =>displayProductDetails(result))
-    .catch(err => searchResult("something may be wrong! please try later!"))
+    .catch(err => searchResult("Please Try again later!"))
 }
-
 //Details display product on button
 const displayProductDetails = (result) =>{
 //Loading
@@ -89,15 +86,15 @@ const phone = result.data;
                         <div class="details-box">
                             <ul>
                                 <li><span>Name</span> : ${phone.name}</li>
-                                <li><span>releaseDate</span> : ${phone.releaseDate ? phone.releaseDate : "no releaseDate found" }</li>
-                                <li><span>brand</span> : ${phone.brand}</li>
-                                <h3 class="details-title">Main Feature:</h3>
-                                <li><span>storage</span> : ${phone.mainFeatures.storage}</li>
-                                <li><span>displaySize</span> : ${phone.mainFeatures.displaySize}</li>
-                                <li><span>memory</span> : ${phone.mainFeatures.chipSet}</li>
-                                <li><span>chipSet</span> : ${phone.mainFeatures.memory}</li>
-                                <li><span>sensors</span> : ${phone.mainFeatures.sensors.join(" | ")}</li>
-                                <h3 class="details-title">Other:</h3>
+                                <li><span>Release Date</span> : ${phone.ReleaseDate ? phone.ReleaseDate : "Release Date not founded" }</li>
+                                <li><span>Brand</span> : ${phone.brand}</li>
+                                <h3 class="details-title">Main Features:</h3>
+                                <li><span>Storage</span> : ${phone.mainFeatures.storage}</li>
+                                <li><span>DisplaySize</span> : ${phone.mainFeatures.displaySize}</li>
+                                <li><span>Memory</span> : ${phone.mainFeatures.chipSet}</li>
+                                <li><span>ChipSet</span> : ${phone.mainFeatures.memory}</li>
+                                <li><span>Sensors</span> : ${phone.mainFeatures.sensors.join(" | ")}</li>
+                                <h3 class="details-title">Others:</h3>
                                 <li><span>WLAN</span> : ${phone.others.WLAN}</li>
                                 <li><span>Bluetooth</span> : ${phone.others.Bluetooth}</li>
                                 <li><span>GPS</span> : ${phone.others.GPS}</li>
@@ -118,7 +115,7 @@ const displaySearchResult = (result,searchInputData) =>{
     let phonesResults = result.data;
 //Execution for data found 
     if(phonesResults.length>0){
-searchResult("You Search For : ",searchInputData);
+searchResult("You Searched For The Products : ",searchInputData);
 if(phonesResults.length>20){
 //More products 
             loadMoreProducts = [...phonesResults.splice(20)];
@@ -134,7 +131,7 @@ if(phonesResults.length>20){
                             <img src="${phonesResults[i].image}" alt="">
                         </div>
                         <h2>${phonesResults[i].phone_name}</h2>
-                        <button onclick="loadProductDetails('${phonesResults[i].slug}')" id="details" class="btn btn-danger">Details</button>
+                        <button onclick="loadProductDetails('${phonesResults[i].slug}')" id="details" class="btn btn-success">Details</button>
                     </div>
                 </div>
                 `;
@@ -158,7 +155,7 @@ if(phonesResults.length>20){
                             <img src="${phonesResults[i].image}" alt="">
                         </div>
                         <h2>${phonesResults[i].phone_name}</h2>
-                        <button onclick="loadProductDetails('${phonesResults[i].slug}')" id="details" class="btn btn-danger">Details</button>
+                        <button onclick="loadProductDetails('${phonesResults[i].slug}')" id="details" class="btn btn-primary">Details</button>
                     </div>
                 </div>
                 `;
@@ -169,7 +166,7 @@ if(phonesResults.length>20){
         }
         }else{
         //Text show with no data found!
-        searchResult('No Product Found For Your Search : ',searchInputData);
+        searchResult('Not Available in Stock!: ',searchInputData);
         // If there's no product found,hide the load more button!
         loadMoreBtnDisplay('none')
         //Search result not found then spinner hide
