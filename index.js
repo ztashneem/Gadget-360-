@@ -67,7 +67,7 @@ productDetailsSelector.innerHTML = "";
     fetch(`https://openapi.programming-hero.com/api/phone/${slug}`)
     .then(res => res.json())
     .then(result =>displayProductDetails(result))
-    .catch(err => searchResult("Please Try again later!"))
+    .catch(err => searchResult('Products'))
 }
 //Details display product on button
 const displayProductDetails = (result) =>{
@@ -166,7 +166,7 @@ if(phonesResults.length>20){
         }
         }else{
         //Text show with no data found!
-        searchResult('Not Available in Stock!: ',searchInputData);
+        searchResult('Not Available in Stock! ',searchInputData);
         // If there's no product found,hide the load more button!
         loadMoreBtnDisplay('none')
         //Search result not found then spinner hide
