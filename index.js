@@ -1,4 +1,4 @@
-//SELECT ALL ELEMENT BY DOM
+//DOM SELECTION-ALL PRODUCTS
 const searchBtn = document.getElementById('search');
 const searchInput = document.getElementById('search-input');
 const detailsBtn = document.getElementById('details');
@@ -14,38 +14,33 @@ loadMoreBtnDisplay('none');
 //Loading snipper Initial value 
 loading('none');
 
-//Load more button displaying 
+//Button displaying 
 function loadMoreBtnDisplay (style){
     loadMoreBtn.style.display = style;
 }
-
-//Loading Spinner Show/hide  On loading data 
 function loading (value) {
     spinner.style.display = value;
 }
-//function for searchProduct
+//Search Product Function
 const searchProduct = () =>{
     
-    //Loading Spinner Show On loading data 
+    //Spinner Show On loading data 
     loading('block');
-    //collecting search input value
+    //Search input value on collecting
     let searchInputData = searchInput.value.toLowerCase();
     searchInput.value = "";
     displayResultSelector.innerHTML = "";
     productDetailsSelector.innerHTML = "";
-    
-    //input empty check
     if(searchInputData ===""){
         searchResult('Please Fill The Search Field Properly!')
 
-        //load more om empty search 
+        //load more on Null data search 
         loadMoreBtnDisplay('none')
         //Loading spinner  hide on search empty
         loading('none');
 
     }else{
-
-        //Fetching Search Result 
+//Fetching Search Result 
         fetch(`https://openapi.programming-hero.com/api/phones?search=${searchInputData}`)
         .then(res =>res.json())
         .then(result => displaySearchResult(result,searchInputData))
@@ -61,32 +56,27 @@ const searchProduct = () =>{
         })
     }
 }
-
-//Search Result Text Info showing under search box
+//Search Result on showing data info
 const searchResult = (text,searchInputData="")=>{
         searchResultText.innerHTML = `
         <span id="search-result-text"> ${text} <span class="search-text">${searchInputData}</span></span>
         `
 }
-
-//load product details by uniq slug;
+//loading- slug;
 const loadProductDetails = (slug) =>{
 
     productDetailsSelector.innerHTML = "";
     fetch(`https://openapi.programming-hero.com/api/phone/${slug}`)
     .then(res => res.json())
     .then(result =>displayProductDetails(result))
-
     .catch(err => searchResult("something may be wrong! please try later!"))
 }
 
-//display product details by clicking details button
+//Details display product on button
 const displayProductDetails = (result) =>{
-
-    //show loading
+//Loading
     loading('block');
-
-    const phone = result.data;
+const phone = result.data;
     productDetailsSelector.innerHTML = `
     <div class="col-lg-4">
                     <div class="product-details-image">
@@ -119,35 +109,22 @@ const displayProductDetails = (result) =>{
                     </div>
                 </div>
     `
-    //hide loading
+// if want to hide loading
     loading('none');
 
 }
-
-//display search result by clicking search button
+//Details display product on button
 const displaySearchResult = (result,searchInputData) =>{
     let phonesResults = result.data;
-
-    //If data found then execute 
+//Execution for data found 
     if(phonesResults.length>0){
-
-        
-        //search field value show 
-        searchResult("You Search For : ",searchInputData);
-        //phones result show maximum 20 if result get 20+ number
-
-        if(phonesResults.length>20){
-
-            // load more products collecting 
+searchResult("You Search For : ",searchInputData);
+if(phonesResults.length>20){
+//More products 
             loadMoreProducts = [...phonesResults.splice(20)];
-
-            //load more button show if product length greater than 20
             loadMoreBtnDisplay('inline-block')
-            
-            
-
             let allPhones = "";
-            //looping 20 items for getting greater than 20 items
+            //loop use
             for(let i=0; i<phonesResults.length; i++){
                 allPhones = `${allPhones}
                 <div class="col-lg-3 col-md-6 col-12">
@@ -164,18 +141,13 @@ const displaySearchResult = (result,searchInputData) =>{
             }
             displayResultSelector.innerHTML = allPhones;
 
-            // Loading Spinner none after showing all fetch data 
             loading('none');
         }else{
-
-            //load more product making empty as product length less than 20
             loadMoreProducts = [];
-
-            //load more button none if product length less than 20
             loadMoreBtnDisplay('none')
 
             let allPhones = "";
-            //looping less than 20 items 
+            //loop on- less than 20 items 
             for(let i=0; i<phonesResults.length; i++){
                 
                 allPhones = `${allPhones}
@@ -192,27 +164,22 @@ const displaySearchResult = (result,searchInputData) =>{
                 `;
             }
             displayResultSelector.innerHTML = allPhones;
-            // Loading Spinner none 
+            // Loading Spinner for none 
             loading('none');
         }
-        
-
-    }else{
-        //if no data found text show with input search field value
+        }else{
+        //Text show with no data found!
         searchResult('No Product Found For Your Search : ',searchInputData);
-        //hide load more button if no product found 
+        // If there's no product found,hide the load more button!
         loadMoreBtnDisplay('none')
-        //If search result not found then spinner hide
-        loading('none');
-        
-        
+        //Search result not found then spinner hide
+        loading('none');   
     }
     
 }
-
 const loadMoreProductsShow = ()=>{
 
-    //Load more product slice 20 for showing next 20 loading product only,
+    //Product slice 20 for showing next 20 loading product only!
     loadMoreProductSplice = loadMoreProducts.splice(0,20);
 
     if(loadMoreProductSplice.length>0){
@@ -233,19 +200,16 @@ const loadMoreProductsShow = ()=>{
             </div>
             `;
         }
-    
-         //load more products adding with last 20 products
+    //Adding with last 20 products!
         displayResultSelector.innerHTML = `${displayResultSelector.innerHTML} ${allLoadMoreProducts}`;
 
-        //load more button hide if all product load fully
+        //If the products load fully,load more button hide!
         if(loadMoreProducts.length===0){
             loadMoreBtnDisplay('none');
         }    
     }
 
 }
-
-
 searchBtn.addEventListener('click',searchProduct);
 loadMoreBtn.addEventListener('click',loadMoreProductsShow)
 
